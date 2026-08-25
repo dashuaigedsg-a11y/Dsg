@@ -1,0 +1,24 @@
+{
+  "doctype": "DocType",
+  "name": "Wholesale Promotion",
+  "module": "Dsg Wholesale",
+  "custom": 1,
+  "fields": [
+    {"fieldname": "promotion_name", "label": "促销名称", "fieldtype": "Data", "reqd": 1},
+    {"fieldname": "promotion_type", "label": "促销类型", "fieldtype": "Select", "options": "满减\n满赠\n买A送B\n阶梯促销", "reqd": 1},
+    {"fieldname": "customer_tier", "label": "客户等级", "fieldtype": "Link", "options": "Wholesale Customer Tier"},
+    {"fieldname": "item", "label": "商品A", "fieldtype": "Link", "options": "Item"},
+    {"fieldname": "gift_item", "label": "赠品B", "fieldtype": "Link", "options": "Item"},
+    {"fieldname": "buy_qty", "label": "购买数量", "fieldtype": "Float"},
+    {"fieldname": "gift_qty", "label": "赠送数量", "fieldtype": "Float"},
+    {"fieldname": "threshold_amount", "label": "满减金额门槛", "fieldtype": "Currency"},
+    {"fieldname": "discount_amount", "label": "减免金额", "fieldtype": "Currency"},
+    {"fieldname": "valid_from", "label": "开始日期", "fieldtype": "Date", "reqd": 1},
+    {"fieldname": "valid_to", "label": "结束日期", "fieldtype": "Date", "reqd": 1},
+    {"fieldname": "enabled", "label": "启用", "fieldtype": "Check", "default": "1"}
+  ],
+  "permissions": [
+    {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
+    {"role": "Sales Manager", "read": 1, "write": 1, "create": 1}
+  ]
+}
