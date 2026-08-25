@@ -1,0 +1,23 @@
+{
+  "doctype": "DocType",
+  "name": "Wholesale Price Rule",
+  "module": "Dsg Wholesale",
+  "custom": 1,
+  "fields": [
+    {"fieldname": "rule_name", "label": "规则名称", "fieldtype": "Data", "reqd": 1},
+    {"fieldname": "customer_tier", "label": "客户等级", "fieldtype": "Link", "options": "Wholesale Customer Tier"},
+    {"fieldname": "item", "label": "商品", "fieldtype": "Link", "options": "Item"},
+    {"fieldname": "item_group", "label": "商品分类", "fieldtype": "Link", "options": "Item Group"},
+    {"fieldname": "min_qty", "label": "最低数量", "fieldtype": "Float", "default": "1"},
+    {"fieldname": "max_qty", "label": "最高数量", "fieldtype": "Float"},
+    {"fieldname": "price_list", "label": "价格表", "fieldtype": "Link", "options": "Price List", "reqd": 1},
+    {"fieldname": "rate", "label": "批发价", "fieldtype": "Currency", "reqd": 1},
+    {"fieldname": "valid_from", "label": "生效日期", "fieldtype": "Date"},
+    {"fieldname": "valid_to", "label": "失效日期", "fieldtype": "Date"},
+    {"fieldname": "enabled", "label": "启用", "fieldtype": "Check", "default": "1"}
+  ],
+  "permissions": [
+    {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
+    {"role": "Sales Manager", "read": 1, "write": 1, "create": 1}
+  ]
+}
