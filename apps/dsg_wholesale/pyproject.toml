@@ -1,0 +1,9 @@
+[project]
+name = "dsg_wholesale"
+version = "0.1.0"
+description = "ERPNext 日化百货批发业务扩展"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.ruff]
+line-length = 100
