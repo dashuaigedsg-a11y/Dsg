@@ -1,7 +1,35 @@
-# Demo development environment.
-# Use an official Frappe/ERPNext Docker setup for the actual runtime;
-# this repository contains the custom app layer only.
 services:
-  README:
-    image: alpine:3.20
-    command: ["sh", "-c", "echo 'Install ERPNext/Frappe separately, then install this app.'"]
+  db:
+    image: mariadb:10.6
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: frappe
+    volumes:
+      - db-data:/var/lib/mysql
+
+  redis-cache:
+    image: redis:7-alpine
+  redis-queue:
+    image: redis:7-alpine
+  redis-socketio:
+    image: redis:7-alpine
+
+  backend:
+    image: frappe/erpnext:v15.77.0
+    depends_on:
+      - db
+      - redis-cache
+      - redis-queue
+      - redis-socketio
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+      - ./apps:/workspace/apps
+    ports:
+      - "8000:8000"
+    command: bash -lc "cd /home/frappe/frappe-bench && bench start"
+
+volumes:
+  db-data:
+  sites:
