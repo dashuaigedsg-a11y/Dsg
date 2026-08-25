@@ -1,0 +1,19 @@
+{
+  "doctype": "DocType",
+  "name": "Wholesale Item Pack",
+  "module": "Dsg Wholesale",
+  "custom": 1,
+  "istable": 0,
+  "fields": [
+    {"fieldname": "item", "label": "商品", "fieldtype": "Link", "options": "Item", "reqd": 1},
+    {"fieldname": "stock_uom", "label": "库存单位", "fieldtype": "Link", "options": "UOM", "reqd": 1},
+    {"fieldname": "sales_uom", "label": "销售单位", "fieldtype": "Link", "options": "UOM", "reqd": 1},
+    {"fieldname": "conversion_factor", "label": "换算系数", "fieldtype": "Float", "reqd": 1, "default": "1"},
+    {"fieldname": "barcode", "label": "包装条码", "fieldtype": "Data"},
+    {"fieldname": "is_default", "label": "默认销售包装", "fieldtype": "Check", "default": "0"}
+  ],
+  "permissions": [
+    {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
+    {"role": "Sales Manager", "read": 1, "write": 1, "create": 1}
+  ]
+}
