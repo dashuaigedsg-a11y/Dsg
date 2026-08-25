@@ -1,0 +1,19 @@
+{
+  "doctype": "DocType",
+  "name": "Wholesale Customer Tier",
+  "module": "Dsg Wholesale",
+  "custom": 1,
+  "istable": 0,
+  "editable_grid": 0,
+  "engine": "InnoDB",
+  "fields": [
+    {"fieldname": "tier_name", "label": "客户等级名称", "fieldtype": "Data", "reqd": 1, "unique": 1},
+    {"fieldname": "tier_code", "label": "等级编码", "fieldtype": "Data", "reqd": 1, "unique": 1},
+    {"fieldname": "description", "label": "说明", "fieldtype": "Small Text"},
+    {"fieldname": "enabled", "label": "启用", "fieldtype": "Check", "default": "1"}
+  ],
+  "permissions": [
+    {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
+    {"role": "Sales Manager", "read": 1, "write": 1, "create": 1}
+  ]
+}
