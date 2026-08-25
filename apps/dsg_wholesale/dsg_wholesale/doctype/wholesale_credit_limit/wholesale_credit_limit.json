@@ -1,0 +1,17 @@
+{
+  "doctype": "DocType",
+  "name": "Wholesale Credit Limit",
+  "module": "Dsg Wholesale",
+  "custom": 1,
+  "fields": [
+    {"fieldname": "customer", "label": "客户", "fieldtype": "Link", "options": "Customer", "reqd": 1, "unique": 1},
+    {"fieldname": "credit_limit", "label": "信用额度", "fieldtype": "Currency", "reqd": 1, "default": "0"},
+    {"fieldname": "payment_days", "label": "账期天数", "fieldtype": "Int", "default": "30"},
+    {"fieldname": "allow_over_limit", "label": "允许超额下单", "fieldtype": "Check", "default": "0"},
+    {"fieldname": "approval_required", "label": "超额需要审批", "fieldtype": "Check", "default": "1"}
+  ],
+  "permissions": [
+    {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
+    {"role": "Sales Manager", "read": 1, "write": 1, "create": 1}
+  ]
+}
