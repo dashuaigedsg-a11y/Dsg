@@ -4,28 +4,61 @@ services:
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+      - --skip-name-resolve
     environment:
       MYSQL_ROOT_PASSWORD: frappe
     volumes:
       - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
 
   redis-cache:
     image: redis:7-alpine
+
   redis-queue:
     image: redis:7-alpine
+
   redis-socketio:
     image: redis:7-alpine
+
+  setup:
+    image: frappe/erpnext:v15.77.0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis-cache:
+        condition: service_started
+      redis-queue:
+        condition: service_started
+      redis-socketio:
+        condition: service_started
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+      - ./apps/dsg_wholesale:/home/frappe/frappe-bench/apps/dsg_wholesale
+    environment:
+      DB_HOST: db
+    entrypoint: ["bash", "-lc"]
+    command: >-
+      "if [ ! -f sites/dsg.local/site_config.json ]; then
+      bench new-site dsg.local --db-host db --mariadb-root-password frappe
+      --admin-password admin --no-mariadb-socket --install-app erpnext;
+      fi;
+      if [ ! -f sites/dsg.local/site_config.json ]; then exit 1; fi;
+      bench --site dsg.local set-config developer_mode 1;
+      bench --site dsg.local clear-cache;
+      echo 'ERPNext demo site ready';"
 
   backend:
     image: frappe/erpnext:v15.77.0
     depends_on:
-      - db
-      - redis-cache
-      - redis-queue
-      - redis-socketio
+      setup:
+        condition: service_completed_successfully
     volumes:
       - sites:/home/frappe/frappe-bench/sites
-      - ./apps:/workspace/apps
+      - ./apps/dsg_wholesale:/home/frappe/frappe-bench/apps/dsg_wholesale
     ports:
       - "8000:8000"
     command: bash -lc "cd /home/frappe/frappe-bench && bench start"
