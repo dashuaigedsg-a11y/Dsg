@@ -47,9 +47,12 @@ services:
       --admin-password admin --no-mariadb-socket --install-app erpnext;
       fi;
       if [ ! -f sites/dsg.local/site_config.json ]; then exit 1; fi;
+      if ! bench --site dsg.local list-apps | grep -qx dsg_wholesale; then
+      bench --site dsg.local install-app dsg_wholesale;
+      fi;
       bench --site dsg.local set-config developer_mode 1;
       bench --site dsg.local clear-cache;
-      echo 'ERPNext demo site ready';"
+      echo 'ERPNext wholesale demo site ready';"
 
   backend:
     image: frappe/erpnext:v15.77.0
@@ -61,7 +64,7 @@ services:
       - ./apps/dsg_wholesale:/home/frappe/frappe-bench/apps/dsg_wholesale
     ports:
       - "8000:8000"
-    command: bash -lc "cd /home/frappe/frappe-bench && bench start"
+    command: bash -lc "cd /home/frappe/frappe-bench && bench --site dsg.local serve --host 0.0.0.0 --port 8000"
 
 volumes:
   db-data:
